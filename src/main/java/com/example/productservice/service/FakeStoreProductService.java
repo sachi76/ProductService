@@ -1,6 +1,7 @@
 package com.example.productservice.service;
 
 import com.example.productservice.dtos.FakeStoreProductDto;
+import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import org.springframework.http.HttpMethod;
@@ -25,7 +26,7 @@ public class FakeStoreProductService implements ProductService{
 
 
     @Override
-    public Product getSingleproduct(Long productId) {
+    public Product getSingleproduct(Long productId) throws ProductNotFoundException {
 
        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + productId,
                 FakeStoreProductDto.class
@@ -33,6 +34,10 @@ public class FakeStoreProductService implements ProductService{
 
        //convert fakeStoreProductDto to product
 
+
+        if(fakeStoreProductDto == null){
+            throw new ProductNotFoundException("Product with id" + productId + "is not present", productId);
+        }
 
         return convertFakeStoreProductToProduct(fakeStoreProductDto);
 
@@ -71,7 +76,13 @@ public class FakeStoreProductService implements ProductService{
 
     @Override
     public Product replaceProduct(Long id, Product product) {
-        return null;
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(product, FakeStoreProductDto.class);
+
+        HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor = new HttpMessageConverterExtractor<>(FakeStoreProductDto.class,
+                restTemplate.getMessageConverters());
+        FakeStoreProductDto response = restTemplate.execute("https://fakestoreapi.com/products/" + id, HttpMethod.PUT, requestCallback, responseExtractor);
+
+        return convertFakeStoreProductToProduct(response);
     }
 
 
