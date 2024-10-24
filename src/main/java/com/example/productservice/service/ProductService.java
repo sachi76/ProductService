@@ -11,7 +11,7 @@ public interface ProductService {
     Optional<Product> getSingleproduct(Long productId) throws ProductNotFoundException;
     List<Product> getAllProducts();
     void deleteProduct(Long id);
-    Product updateProduct(Long id, Product product);
+    Product updateProduct(Long id, Product product) throws ProductNotFoundException;
     Product replaceProduct(Long id, Product product);
     Product addProduct(Product product);
 }
