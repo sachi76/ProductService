@@ -8,13 +8,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RequestCallback;
-import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-@Service
+@Service("FakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
 
     private RestTemplate restTemplate;
@@ -26,7 +26,7 @@ public class FakeStoreProductService implements ProductService{
 
 
     @Override
-    public Product getSingleproduct(Long productId) throws ProductNotFoundException {
+    public Optional<Product> getSingleproduct(Long productId) throws ProductNotFoundException {
 
        FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + productId,
                 FakeStoreProductDto.class
@@ -39,7 +39,7 @@ public class FakeStoreProductService implements ProductService{
             throw new ProductNotFoundException("Product with id" + productId + "is not present", productId);
         }
 
-        return convertFakeStoreProductToProduct(fakeStoreProductDto);
+        return Optional.of(convertFakeStoreProductToProduct(fakeStoreProductDto));
 
     }
 
@@ -83,6 +83,11 @@ public class FakeStoreProductService implements ProductService{
         FakeStoreProductDto response = restTemplate.execute("https://fakestoreapi.com/products/" + id, HttpMethod.PUT, requestCallback, responseExtractor);
 
         return convertFakeStoreProductToProduct(response);
+    }
+
+    @Override
+    public Product addProduct(Product product) {
+        return null;
     }
 
 

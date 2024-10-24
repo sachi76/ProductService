@@ -3,6 +3,7 @@ package com.example.productservice.controllers;
 import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Product;
 import com.example.productservice.service.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class ProductController {
 
     private ProductService productService;
 
-    public ProductController(ProductService productService){
+    public ProductController(@Qualifier("selfProductService") ProductService productService){
         this.productService = productService;
     }
 
@@ -37,7 +38,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") Long id){
-
+         productService.deleteProduct(id);
     }
 
     @PatchMapping("/{id}")
@@ -51,8 +52,8 @@ public class ProductController {
     }
 
     @PostMapping()
-    public Product addProduct(){
-        return null;
+    public Product addNewProduct(@RequestBody Product product){
+        return productService.addProduct(product);
     }
 
     @ExceptionHandler(ArithmeticException.class)
