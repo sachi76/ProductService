@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionDto> handleProductNotFoundException(ProductNotFoundException exception){
 
         ExceptionDto exceptionDto = new ExceptionDto();
-        exceptionDto.setMessage("Product with provided id" + exception.getId() + " is not found ");
+        exceptionDto.setMessage("Product with provided ID: " + exception.getId() + " is not found ");
         exceptionDto.setSolution("Try again with a valid product id ");
         ResponseEntity<ExceptionDto> response = new ResponseEntity<>(
                 exceptionDto,

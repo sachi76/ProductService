@@ -16,4 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Override
     List<Product> findAll();
+    boolean existsById(Long id);
+    boolean existsByName(String name);
+
 }
