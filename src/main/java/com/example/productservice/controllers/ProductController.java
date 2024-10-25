@@ -43,12 +43,18 @@ public class ProductController {
 
     @PatchMapping("/{id}")
     public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
-        return productService.updateProduct(id, product);
+
+        Product updatedProduct =  productService.updateProduct(id, product);
+
+        return new ResponseEntity<>(updatedProduct, HttpStatus.ACCEPTED).getBody();
+
     }
 
     @PutMapping("/{id}")
-    public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product){
-        return productService.replaceProduct(id, product);
+    public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
+        Product replacedProduct = productService.replaceProduct(id, product);
+
+        return new ResponseEntity<>(replacedProduct, HttpStatus.ACCEPTED).getBody();
     }
 
     @PostMapping()

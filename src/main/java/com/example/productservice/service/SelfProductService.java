@@ -81,8 +81,15 @@ public class SelfProductService implements ProductService {
     }
 
     @Override
-    public Product replaceProduct(Long id, Product product) {
-        return null;
+    public Product replaceProduct(Long id, Product product) throws ProductNotFoundException {
+
+        if(productRepository.existsById(id)){
+            product.setId(id);
+            return productRepository.save(product);
+        }else{
+            throw new ProductNotFoundException("Product with id" + id +  "not found", id);
+        }
+
     }
 
     @Override
