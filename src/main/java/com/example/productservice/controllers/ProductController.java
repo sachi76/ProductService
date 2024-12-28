@@ -4,6 +4,7 @@ import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Product;
 import com.example.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,15 @@ public class ProductController {
         return responseEntity;
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Product>> getAllProducts(){
-        List<Product> products = productService.getAllProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+//    @GetMapping()
+//    public ResponseEntity<Page<Product>> getAllProducts(@RequestParam("pagenumber")int pageNumber, @RequestParam("pagesize")  int pageSize){
+//        Page    <Product> products = productService.getAllProducts(pageNumber,pageSize);
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//    }
+
+    @GetMapping
+    public List<Product> getAllProducts(){
+        return productService.getAllProducts();
     }
 
     @DeleteMapping("/{id}")

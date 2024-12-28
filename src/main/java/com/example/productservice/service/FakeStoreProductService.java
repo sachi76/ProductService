@@ -4,6 +4,10 @@ import com.example.productservice.dtos.FakeStoreProductDto;
 import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
@@ -43,18 +47,38 @@ public class FakeStoreProductService implements ProductService{
 
     }
 
+//    @Override
+//    public Page<Product> getAllProducts( int pageNumber,  int pageSize) {
+//        FakeStoreProductDto[] fakeStoreProductDtos = restTemplate.getForObject("https://fakestoreapi.com/products",
+//            FakeStoreProductDto[].class
+//                );
+//
+//        //convert all fakeStoreProducts into products
+//        List<Product> products = new ArrayList<>();
+//        for(FakeStoreProductDto fakeStoreProductDto : fakeStoreProductDtos){
+//            products.add(convertFakeStoreProductToProduct(fakeStoreProductDto));
+//        }
+//        int start = pageNumber * pageSize;
+//        int end = Math.min(start + pageSize, products.size());
+//
+//        // Check if start index is within bounds
+//        if (start > products.size()) {
+//            return new PageImpl<>(new ArrayList<>(), PageRequest.of(pageNumber, pageSize), products.size());
+//        }
+//
+//        // Create a sublist for the paginated data
+//        List<Product> paginatedProducts = products.subList(start, end);
+//
+//        // Return paginated data as a PageImpl object
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+//        return new PageImpl<>(paginatedProducts, pageable, products.size());
+//
+//    }
+
     @Override
     public List<Product> getAllProducts() {
-        FakeStoreProductDto[] fakeStoreProductDtos = restTemplate.getForObject("https://fakestoreapi.com/products",
-            FakeStoreProductDto[].class
-                );
+    return null;
 
-        //convert all fakeStoreProducts into products
-        List<Product> products = new ArrayList<>();
-        for(FakeStoreProductDto fakeStoreProductDto : fakeStoreProductDtos){
-            products.add(convertFakeStoreProductToProduct(fakeStoreProductDto));
-        }
-        return products;
     }
 
     @Override
